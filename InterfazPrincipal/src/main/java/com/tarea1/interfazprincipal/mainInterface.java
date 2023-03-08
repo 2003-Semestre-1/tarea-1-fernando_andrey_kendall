@@ -3,12 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.tarea1.interfazprincipal;
+
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author andru
  */
 public class mainInterface extends javax.swing.JFrame {
-
+    public Fichero f=new Fichero();
     /**
      * Creates new form mainInterface
      */
@@ -112,12 +122,23 @@ public class mainInterface extends javax.swing.JFrame {
 
     private void btnLeerArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeerArchivoActionPerformed
         // TODO add your handling code here:
-        
+        Scanner entrada = null;
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.showOpenDialog(fileChooser);
+        String ruta = fileChooser.getSelectedFile().getAbsolutePath(); 
+        String extension=obtenerExtension(ruta);
+        System.out.println(ruta);
+        if(extension.equals("asm")){
+            f.leerFichero(ruta);
+            //f.leerMatriz();
+        }else{
+            JOptionPane.showMessageDialog(null, "El archivo deber tener extension asm.");
+        }       
     }//GEN-LAST:event_btnLeerArchivoActionPerformed
 
     private void btnVerContenidoArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerContenidoArchivoActionPerformed
         // TODO add your handling code here:
-        InterfazVerContenido vercontenido = new InterfazVerContenido();
+        InterfazVerContenido vercontenido = new InterfazVerContenido(f);
         vercontenido.setVisible(true);
     }//GEN-LAST:event_btnVerContenidoArchivoActionPerformed
 
@@ -126,7 +147,10 @@ public class mainInterface extends javax.swing.JFrame {
         InterfazVerMemoria vermemoria = new InterfazVerMemoria();
         vermemoria.setVisible(true);
     }//GEN-LAST:event_btnVerMemoriaActionPerformed
-    
+    private String obtenerExtension(String ruta){
+        int contador=ruta.lastIndexOf(".");
+        return ruta.substring(contador+1);
+    }
     /**
      * @param args the command line arguments
      */

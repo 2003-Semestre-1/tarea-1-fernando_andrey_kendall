@@ -4,20 +4,42 @@
  */
 package com.tarea1.interfazprincipal;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author andru
  */
 public class InterfazVerContenido extends javax.swing.JFrame {
-
+    public Fichero info=new Fichero();
     /**
      * Creates new form InterfazVerContenido
      */
-    public InterfazVerContenido() {
+    public InterfazVerContenido(Fichero pInfo) {
+        this.info=pInfo;
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setTitle("Ver Contenido");
+        try {
+            DefaultTableModel tabla=new DefaultTableModel();
+            tabla.addColumn("Código ASM");
+            tabla.addColumn("Código Binario");
+            tabla.addColumn("AC");
+            tabla.addColumn("AX");
+            tabla.addColumn("BX");
+            tabla.addColumn("CX");
+            tabla.addColumn("DX");
+            for(int i=0;i<pInfo.codigoBinario.size();i++){
+                ArrayList<String> objeto=pInfo.matriz.get(i);
+                tabla.addColumn(new Object[]{objeto.get(0)+" "+objeto.get(1)+" "+ objeto.get(2),pInfo.codigoBinario.get(i),pInfo.AC.get(i),pInfo.AX.get(i),pInfo.BX.get(i),pInfo.CX.get(i),pInfo.DX.get(i)});
+            }
+            jTable1.setModel(tabla);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Hubo un error."+ e);
+        }
     }
 
     /**
@@ -126,7 +148,7 @@ public class InterfazVerContenido extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InterfazVerContenido().setVisible(true);
+                new InterfazVerContenido(null).setVisible(true);
             }
         });
     }
